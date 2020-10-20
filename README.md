@@ -1,7 +1,6 @@
 # PDF2MP3
 
 A simple commandline app for searching and looking up opensource vulnerabilities
-For windows only(Requires pywin32 package)
 
 # Installation
 
@@ -22,6 +21,7 @@ For windows only(Requires pywin32 package)
 ```bash
 $ pdf2mp3
 ```
+Disclaimer: Currently this doesn't work. Do python pdf2mp3/__main__.py convert C:\Users\example.pdf
 ## Convert
 `convert <pathToPdf> [options]`
 <br>
