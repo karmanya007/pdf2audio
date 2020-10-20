@@ -15,3 +15,32 @@ with open(path.join(HERE, 'requirements.txt'), encoding='utf-8') as f:
 	all_reqs = f.read().split('\n')
 install_requires = [x.strip() for x in all_reqs if('git+' not in x) and (not x.startswith('#')) and (not x.startswith('-'))]
 dependency_links = [x.strip().replace('git+', '') for x in all_reqs if 'git+' not in x]
+
+setup(
+	name='pdf2mp3',
+	description='Converts pdf to an audio file',
+	version='1.0.0',
+	packages=find_packages(),  # list of all packages
+	install_requires=install_requires,
+	python_requires='>=2.7',  # any python greater than 2.7
+	entry_points='''
+        [console_scripts]
+        pdf2mp3=pdf2mp3.__main__:main
+    ''',
+	author="Karmanya Veer Sharma",
+	keyword="pdf2mp3, pdf2audio, conversion, pdf, mp3",
+	long_description=README,
+	long_description_content_type="text/markdown",
+	license='MIT',
+	url='https://github.com/karmanya007/pdf2audio',
+	download_url='https://github.com/karmanya007/pdf2audio/archive/1.0.0.tar.gz',
+	dependency_links=dependency_links,
+	author_email='karmanyasharma5@gmail.com',
+	classifiers=[
+		"License :: OSI Approved :: MIT License",
+		"Programming Language :: Python :: 2.7",
+		"Programming Language :: Python :: 3",
+		"Programming Language :: Python :: 3.7",
+		"Programming Language :: Python :: 3.9",
+	]
+)
