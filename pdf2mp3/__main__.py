@@ -3,10 +3,10 @@ import os.path
 import click
 import six
 
-# home = os.path.dirname(sys.argv[0])
-# sys.path.append(os.path.join(home, "pdf2mp3"))
+home = os.path.dirname(sys.argv[0])
+sys.path.append(os.path.join(home, "pdf2mp3"))
 
-import pdf2mp3.mp3_converter as mp3_converter
+import mp3_converter
 
 try:
 	import colorama
@@ -31,7 +31,7 @@ def main():
 
 @main.command()
 @click.argument('path', required=True, type=click.Path(exists=True))
-@click.option('-n', '--name',default='test')
+@click.option('-n', '--name', default='test', show_default=True)
 def convert(name,**kwargs):
 	"""Convert a pdf into audio file (mp3)"""
 	six.print_(colored(mp3_converter.extract_text(kwargs.get('path'),name), "green"))
