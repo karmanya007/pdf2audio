@@ -3,10 +3,10 @@ import os.path
 import click
 import six
 
-home = os.path.dirname(sys.argv[0])
-sys.path.append(os.path.join(home, "pdf2mp3"))
+# home = os.path.dirname(sys.argv[0])
+# sys.path.append(os.path.join(home, "pdf2mp3"))
 
-import mp3_converter
+import pdf2mp3.mp3_converter
 
 try:
 	import colorama
