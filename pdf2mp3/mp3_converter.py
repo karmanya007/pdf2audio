@@ -9,19 +9,33 @@ from pdfminer.pdfparser import PDFParser
 from PyPDF2 import PdfFileReader
 from tqdm import tqdm
 import pyttsx3
+import six
 from time import sleep
+
+try:
+	import colorama
+
+	colorama.init()
+except ImportError:
+	colorama = None
+
+try:
+	from termcolor import colored
+except ImportError:
+	colored = None
+
 engine = pyttsx3.init()
 
 
-def on_word(name, location, length):
-	with tqdm(total=length, desc=name) as pbar:
-		for i in range(10):
-			sleep(0.1)
-			pbar.update(length/10)
+def on_start(name,length):
+	with tqdm(total=length, desc=colored(name,"cyan")) as pbar:
+		for i in range(length):
+			sleep(0.2)
+			pbar.update(1)
 
 
 def on_error(name, exception):
-	print(f"{name} caused error: ")
+	six.print_(colored(f"{name} caused error: ","red"))
 	raise Exception(exception)
 
 
@@ -48,18 +62,18 @@ def get_text(in_file,output_string,number_of_pages):
 	rsrcmgr = PDFResourceManager()
 	device = TextConverter(rsrcmgr, output_string, laparams=LAParams())
 	interpreter = PDFPageInterpreter(rsrcmgr, device)
-	for page in tqdm(PDFPage.create_pages(doc), total=(number_of_pages - 1), desc='Converting pdf to text'):
+	for page in tqdm(PDFPage.create_pages(doc), total=(number_of_pages - 1), desc=colored('Converting pdf to text',"cyan")):
 		interpreter.process_page(page)
 
 
-def convert_to_audio(number_of_pages,output):
-	engine.connect('started-word', on_word('Converting text to audio', 0, number_of_pages - 1))
+def convert_to_audio(number_of_pages,output,file_name):
+	engine.connect('started-utterance', on_start('Converting text to audio', number_of_pages - 1))
 	engine.connect('error', on_error)
-	engine.save_to_file(output, 'test_01.mp3')
+	engine.save_to_file(output, f'{file_name}.mp3')
 	engine.runAndWait()
 
 
-def extract_text(pdf_path):
+def extract_text(pdf_path, file_name):
 	output_string = StringIO()
 
 	with open(pdf_path, 'rb') as in_file:
@@ -71,7 +85,7 @@ def extract_text(pdf_path):
 	output = output.replace('\t','')
 	output = info + output
 
-	convert_to_audio(number_of_pages,output)
+	convert_to_audio(number_of_pages,output,file_name)
 
-	return 'Finished converting pdf to mp3'
+	return f"Finished converting pdf at {pdf_path} to {file_name}.mp3"
 
