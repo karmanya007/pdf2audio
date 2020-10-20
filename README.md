@@ -1,6 +1,7 @@
 # PDF2MP3
 
 A simple commandline app for searching and looking up opensource vulnerabilities
+For windows only(Requires pywin32 package)
 
 # Installation
 
